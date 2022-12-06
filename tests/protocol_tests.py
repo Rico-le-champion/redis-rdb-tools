@@ -8,7 +8,7 @@ class ProtocolExpireTestCase(unittest.TestCase):
     def setUp(self):
         self.dumpfile = os.path.join(
                 os.path.dirname(__file__),
-                'dumps',
+            'dumps',
                 'keys_with_expiry.rdb')
 
     def tearDown(self):

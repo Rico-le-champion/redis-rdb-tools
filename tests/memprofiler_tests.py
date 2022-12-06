@@ -54,8 +54,8 @@ def get_csv(dump_file_name):
     buff = BytesIO()
     callback = MemoryCallback(PrintAllKeys(buff, None, None), 64)
     parser = RdbParser(callback)
-    parser.parse(os.path.join(os.path.dirname(__file__), 
-                    'dumps', dump_file_name))
+    parser.parse(os.path.join(os.path.dirname(__file__),
+                              'dumps', dump_file_name))
     csv = buff.getvalue().decode()
     return csv
 
