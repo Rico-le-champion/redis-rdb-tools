@@ -19,8 +19,11 @@ class JSONCallback(RdbCallback):
         self._element_index = 0
 
     def encode_key(self, key):
-        key = encodehelpers.bytes_to_unicode(key, self._escape, skip_printable=True)
-        return codecs.encode(json.dumps(key), 'utf-8')
+        if key == "__aux__":
+            pass
+        else:
+            key = encodehelpers.bytes_to_unicode(key, self._escape, skip_printable=True)
+            return codecs.encode(json.dumps(key), 'utf-8')
 
     def encode_value(self, val):
         val = encodehelpers.bytes_to_unicode(val, self._escape)
@@ -31,7 +34,7 @@ class JSONCallback(RdbCallback):
     
     def start_database(self, db_number):
         if not self._is_first_db:
-            self._out.write(b'},')
+            self._out.write(b'}')
         self._out.write(b'{')
         self._is_first_db = False
         self._has_databases = True
@@ -46,12 +49,15 @@ class JSONCallback(RdbCallback):
         self._out.write(b']')
 
     def _start_key(self, key, length):
-        if not self._is_first_key_in_db:
-            self._out.write(b',')
-        self._out.write(b'\r\n')
-        self._is_first_key_in_db = False
-        self._elements_in_key = length
-        self._element_index = 0
+        if key=="__aux__":
+            pass
+        else:
+            if not self._is_first_key_in_db:
+                self._out.write(b',')
+            self._out.write(b'\r\n')
+            self._is_first_key_in_db = False
+            self._elements_in_key = length
+            self._element_index = 0
     
     def _end_key(self, key):
         pass
@@ -62,6 +68,7 @@ class JSONCallback(RdbCallback):
         self._element_index = self._element_index + 1
         
     def set(self, key, value, expiry, info):
+
         self._start_key(key, 0)
         self._out.write(self.encode_key(key) + b':' + self.encode_value(value))
         self._end_key(key)
@@ -126,13 +133,19 @@ class JSONCallback(RdbCallback):
     def start_module(self, key, module_name, expiry, info):
         if key is None:
             key = "__aux__"
-        self._start_key(key, 0)
-        self._out.write(self.encode_key(key) + b':{')
+            pass
+        else:
+            self._start_key(key, 0)
+            self._out.write(self.encode_key(key) + b':{')
         return False
 
     def end_module(self, key, buffer_size, buffer=None):
-        self._end_key(key)
-        self._out.write(b'}')
+        if key is None:
+            key = "__aux__"
+            pass
+        else:
+            self._end_key(key)
+            self._out.write(b'}')
 
 
 class KeysOnlyCallback(RdbCallback):

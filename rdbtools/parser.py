@@ -406,7 +406,6 @@ class RdbParser(object):
                 self._idle = None
                 self._freq = None
                 data_type = read_unsigned_char(f)
-
                 if data_type == REDIS_RDB_OPCODE_EXPIRETIME_MS :
                     self._expiry = read_milliseconds_time(f)
                     data_type = read_unsigned_char(f)
@@ -959,7 +958,7 @@ class RdbParser(object):
 
     def verify_version(self, version_str) :
         version = int(version_str)
-        if version < 1 or version > 9:
+        if version < 1 or version > 10:
             raise Exception('verify_version', 'Invalid RDB version number %d' % version)
         self._rdb_version = version
 

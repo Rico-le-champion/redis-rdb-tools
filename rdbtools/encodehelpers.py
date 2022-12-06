@@ -107,9 +107,13 @@ def bytes_to_unicode(byte_data, escape, skip_printable=False):
         else:
             byte_data = num2bytes(byte_data)
     else:
-        assert (isinstance(byte_data, type(b'')))
-        if skip_printable and all(0x20 <= bval(ch) <= 0x7E for ch in byte_data):
-            escape = STRING_ESCAPE_RAW
+        try :
+            assert (isinstance(byte_data, type(b'')))
+            if skip_printable and all(0x20 <= bval(ch) <= 0x7E for ch in byte_data):
+                    escape = STRING_ESCAPE_RAW
+        except:
+            if type(byte_data) == str:
+                return byte_data
 
     if escape == STRING_ESCAPE_RAW:
         return byte_data.decode('latin-1')

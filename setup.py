@@ -7,7 +7,7 @@ Parse Redis dump.rdb files, Analyze Memory, and Export Data to JSON
 
 Rdbtools is a parser for Redis' dump.rdb files. The parser generates events similar to an xml sax parser, and is very efficient memory wise.
 
-In addition, rdbtools provides utilities to :
+In addition, rdbtools_v10 provides utilities to :
 
  1. Generate a Memory Report of your data across all databases and keys
  2. Convert dump files to JSON
@@ -18,7 +18,7 @@ Rdbtools is written in Python, though there are similar projects in other langua
 
 
 sdict = {
-    'name' : 'rdbtools',
+    'name' : 'rdbtools_v10',
     'version' : __version__,
     'description' : 'Utilities to convert Redis RDB files to JSON or SQL formats',
     'long_description' : long_description,
@@ -30,17 +30,17 @@ sdict = {
     'maintainer_email': 'oss@redislabs.com',
     'keywords' : ['Redis', 'RDB', 'Export', 'Dump', 'Memory Profiler'],
     'license' : 'MIT',
-    'packages' : ['rdbtools', 'rdbtools.cli'],
+    'packages' : ['rdbtools_v10', 'rdbtools_v10.cli'],
     'package_data' : {
-        'rdbtools': ['templates/*'],
+        'rdbtools_v10': ['templates/*'],
     },
     'test_suite' : 'tests.all_tests',
     'install_requires': ['redis'],
     'entry_points' : {
         'console_scripts' : [
-            'rdb = rdbtools.cli.rdb:main',
-            'redis-memory-for-key = rdbtools.cli.redis_memory_for_key:main',
-            'redis-profiler = rdbtools.cli.redis_profiler:main'],
+            'rdb = rdbtools_v10.cli.rdb:main',
+            'redis-memory-for-key = rdbtools_v10.cli.redis_memory_for_key:main',
+            'redis-profiler = rdbtools_v10.cli.redis_profiler:main'],
     },
     'classifiers' : [
         'Development Status :: 5 - Production/Stable',
